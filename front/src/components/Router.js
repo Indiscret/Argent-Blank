@@ -9,13 +9,13 @@ import Controller from '../controllers/Controller';
 function Router() {
   return (
     <Provider store={store}>
-    <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/sign-in' element={<SignIn />} />
-      <Route element={<Controller />}>
-              <Route path="/user" element={<User />} />
-            </Route>
-    </Routes>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/sign-in' element={<SignIn />} />
+        <Route element={<Controller />}>
+          <Route path="/user" element={<User />} />
+        </Route>
+      </Routes>
     </Provider>
   );
 }

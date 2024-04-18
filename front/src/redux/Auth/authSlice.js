@@ -20,17 +20,14 @@ const authSlice = createSlice({
         loginError: (state, action) => {
             state.error = action.payload.message;
         },
-        signUpSuccess: (state, action) => {
-            state.email = action.payload.email;
-            state.password = action.payload.password;
-            state.firstName = action.payload.firstName;
-            state.lastName = action.payload.lastName;
+        logoutSuccess: (state) => {
+            state.token = "";
             state.error = false;
-        },
-        signUpError: (state) => {
-            state.error = true;
-        },
-        fetchUserSucces: (state, action) => {
+          },
+          logoutError: (state, action) => {
+            state.error = action.payload.message;
+          },
+        fetchUserSuccess: (state, action) => {
             state.error = false;
             state.email = action.payload.email;
             state.firstName = action.payload.firstName;
@@ -40,14 +37,24 @@ const authSlice = createSlice({
         fetchUserError: (state) => {
             state.error = true;
         },
+        updateUserSuccess: (state, action) => {
+            state.firstName = action.payload.firstName;
+            state.lastName = action.payload.lastName;
+            state.error = false;
+        },
+        updateUserError: (state) => {
+            state.error = true;
+        },
     }
 })
 export const {
     loginSuccess,
     loginError,
-    signUpSuccess,
-    signUpError,
-    fetchUserSucces,
+    logoutSuccess,
+    logoutError,
+    fetchUserSuccess,
     fetchUserError,
+    updateUserSuccess,
+    updateUserError,
   } = authSlice.actions
 export default authSlice.reducer

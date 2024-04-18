@@ -2,8 +2,12 @@ import axios from "axios";
 import {
   loginError,
   loginSuccess,
-  fetchUserSucces,
+  fetchUserSuccess,
   fetchUserError,
+  logoutError,
+  logoutSuccess,
+  updateUserSuccess,
+  updateUserError,
 } from "../redux/Auth/authSlice";
 
 export const login = async (user, dispatch, handleError, handleValid) => {
@@ -20,14 +24,32 @@ export const login = async (user, dispatch, handleError, handleValid) => {
   }
 };
 
-export const fetchUser = async (token, dispatch, handleError, handleValid) => {
+export const fetchUser = async (token, dispatch, handleError) => {
   try {
     axios.defaults.headers.common["Authorization"] = `Bearer${token}`;
     const res = await axios.post("http://localhost:3001/api/v1/user/profile");
-    handleValid(res.data.message);
-    dispatch(fetchUserSucces(res.data.body));
+    dispatch(fetchUserSuccess(res.data.body));
   } catch (err) {
     handleError(`${err}`);
     dispatch(fetchUserError(err));
+  }
+};
+
+export const logout = async (token, dispatch) => {
+  try {
+    dispatch(logoutSuccess(token));
+  } catch (err) {
+    dispatch(logoutError(err));
+  }
+};
+
+export const updateUser = async (data, dispatch, token, handleError) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = `Bearer${token}`;
+    await axios.put("http://localhost:3001/api/v1/user/profile", data);
+    dispatch(updateUserSuccess(data));
+  } catch (err) {
+    handleError(`${err}`);
+    dispatch(updateUserError(err));
   }
 };

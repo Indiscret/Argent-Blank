@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../services/apiService';
@@ -10,7 +10,7 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
-  const { pending, token } = useSelector((state) => state.user);
+  const { token } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const handleError = (error) => {
@@ -24,7 +24,18 @@ function SignIn() {
   const handleSubmit = (e) => {
     e.preventDefault();
     login({ email, password}, dispatch, handleError, handleValid);
+    if (isChecked) {
+      localStorage.setItem('rememberedUser', JSON.stringify({ email, password }));
+    }
   }
+
+  useEffect(() => {
+    const rememberedUser = localStorage.getItem('rememberedUser');
+    if (rememberedUser) {
+      const { email, password } = JSON.parse(rememberedUser);
+      login({ email, password}, dispatch, handleError, handleValid);
+    }
+  }, [token, dispatch]);
 
     return (
         <main className="main bg-dark">
@@ -50,10 +61,9 @@ function SignIn() {
               }}/>
               <label htmlFor="remember-me">Remember me</label>
             </div>
-            <button className="sign-in-button" disabled={pending} onClick={(e) => {
+            <button className="sign-in-button" onClick={(e) => {
               handleSubmit(e)
             }}>Sign In</button>
-            {pending && <span>Loading ...</span>}
             {token !== "" ? <Navigate to="/user" /> : ""}
           </form>
         </section>

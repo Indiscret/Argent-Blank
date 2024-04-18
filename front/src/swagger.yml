@@ -1,0 +1,155 @@
+swagger: "2.0"
+info:
+  title: ArgentBank Transactions
+  description: API allowing you to see transactions as well as their details and modifications
+  version: 1.0.0
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/transactions:
+    get:
+      summary: Get all transactions of the current month
+      description: Allows you to retrieve all transactions of the current month grouped by account
+      parameters:
+        - in: header
+          name: Token
+          description: JWT token from user connection
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: number
+                date:
+                  type: string
+                  format: date
+                description:
+                  type: string
+                amount:
+                  type: string
+                balance:
+                  type: number
+                type:
+                  type: string
+                category:
+                  type: string
+                note:
+                  type: string
+        '400':
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        '404':
+          description: Not found
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+
+  /user/transactions/{transactionId}:
+    get:
+      summary: Get details of a transaction
+      description: Allows you to retrieve the details of a specific transaction
+      parameters:
+        - in: header
+          name: Token
+          description: JWT token from user connection
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: ID of the transaction to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+              date:
+                type: string
+                format: date
+              description:
+                type: string
+              amount:
+                type: string
+              balance:
+                type: number
+              type:
+                type: string
+              category:
+                type: string
+              note:
+                type: string
+        '400':
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        '404':
+          description: Not found
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+    patch:
+      summary: Update information of a transaction
+      description: Allows you to update information for a specific transaction
+      parameters:
+        - in: header
+          name: Token
+          description: JWT token from user connection
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: ID of the transaction to update
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Updated transaction data
+          required: true
+          schema:
+            type: object
+            properties:
+              note:
+                type: string
+              category:
+                type: string
+      responses:
+        '204':
+          description: Transaction updated successfully
+        '400':
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        '404':
+          description: Not found
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
