@@ -4,6 +4,7 @@ import { fetchUser, updateUser } from "../../services/apiService";
 import Account from "../../components/Account/Account";
 
 function User() {
+  // gere l'etat de mise à jour des info utilisateur
   const [update, setUpdate] = useState(false);
     const { token, firstName, lastName } = useSelector((state) => state.user);
     const dispatch = useDispatch();

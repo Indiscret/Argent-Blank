@@ -8,6 +8,7 @@ import { loginSuccess} from '../../redux/Auth/authSlice';
 
 
 function SignIn() {
+  // initialisation des différents etats pour la connexion 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);

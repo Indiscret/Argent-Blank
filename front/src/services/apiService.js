@@ -10,6 +10,7 @@ import {
   updateUserError,
 } from "../redux/Auth/authSlice";
 
+// fonction pour gerer la connexion de l'utilisateur
 export const login = async (user, dispatch, handleError, handleValid) => {
   try {
     const res = await axios.post(
@@ -26,6 +27,7 @@ export const login = async (user, dispatch, handleError, handleValid) => {
   }
 };
 
+// fonction pour recuperer les info de l'utilisateur
 export const fetchUser = async (token, dispatch) => {
   try {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -37,6 +39,7 @@ export const fetchUser = async (token, dispatch) => {
   }
 };
 
+// focntion pour deconnexter l'utilisateur
 export const logout = async (token, dispatch) => {
   try {
     dispatch(logoutSuccess(token));
@@ -45,6 +48,7 @@ export const logout = async (token, dispatch) => {
   }
 };
 
+// fonction pour mettre à jour les info de l'utilisateur
 export const updateUser = async (data, dispatch, token) => {
   try {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

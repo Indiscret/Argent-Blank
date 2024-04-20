@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 const authSlice = createSlice({
+    // état initial avec valeurd fictives
     name: "user",
     initialState: {
         email: "john@doe.com",
@@ -12,6 +13,7 @@ const authSlice = createSlice({
         error: false,
         token: "",
     },
+    // gere les ations redux + chaque reducer mets à jour l'état du slice selon les données reçues
     reducers: {
         loginSuccess: (state, action) => {
             state.token = action.payload.body.token;

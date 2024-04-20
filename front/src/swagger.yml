@@ -9,14 +9,58 @@ basePath: /api/v1
 schemes:
   - http
 paths:
-  /user/transactions:
+  /user/accounts:
     get:
-      summary: Get all transactions of the current month
-      description: Allows you to retrieve all transactions of the current month grouped by account
+      summary: Get all user accounts
+      description: Allows you to retrieve all accounts associated with the user
       parameters:
         - in: header
           name: Token
           description: JWT token from user connection
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                accountId:
+                  type: number
+                accountType:
+                  type: string
+                balance:
+                  type: number
+        '400':
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        '404':
+          description: Not found
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                
+  /user/accounts/{accountId}/transactions:
+    get:
+      summary: Get all transactions of the current month  for a specific account
+      description: Allows you to retrieve all transactions of the current month for a specific account
+      parameters:
+        - in: header
+          name: Token
+          description: JWT token from user connection
+          required: true
+          type: string
+        - in : path
+          name: accountId
+          description: ID of the account to retrieve transactions for
           required: true
           type: string
       responses:
@@ -59,14 +103,19 @@ paths:
               error:
                 type: string
 
-  /user/transactions/{transactionId}:
+  /user/accounts/{accountId}/transactions/{transactionId}:
     get:
-      summary: Get details of a transaction
-      description: Allows you to retrieve the details of a specific transaction
+      summary: Get details of a transaction for a specific account
+      description: Allows you to retrieve the details of a specific transaction for a specific account
       parameters:
         - in: header
           name: Token
           description: JWT token from user connection
+          required: true
+          type: string
+        - in: path
+          name: accountId
+          description: ID of the account to retrieve transactions for
           required: true
           type: string
         - in: path
@@ -118,6 +167,11 @@ paths:
         - in: header
           name: Token
           description: JWT token from user connection
+          required: true
+          type: string
+        - in: path
+          name: accountId
+          description: ID of the account to retrieve transactions for
           required: true
           type: string
         - in: path

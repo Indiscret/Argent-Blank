@@ -6,8 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle, faSignOut } from '@fortawesome/free-solid-svg-icons'
 
 function Header() {
+  // recupere les données depuis le state + gestion des actions avec dispatch
   const { token, firstName } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
   const SignOut = () => {
       try {
           localStorage.removeItem('userToken');
