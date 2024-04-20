@@ -23,16 +23,16 @@ const authSlice = createSlice({
         logoutSuccess: (state) => {
             state.token = "";
             state.error = false;
-          },
-          logoutError: (state, action) => {
+        },
+        logoutError: (state, action) => {
             state.error = action.payload.message;
-          },
+        },
         fetchUserSuccess: (state, action) => {
-            state.error = false;
             state.email = action.payload.email;
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
             state.id = action.payload.id;
+            state.error = false;
         },
         fetchUserError: (state) => {
             state.error = true;
@@ -56,5 +56,5 @@ export const {
     fetchUserError,
     updateUserSuccess,
     updateUserError,
-  } = authSlice.actions
+} = authSlice.actions
 export default authSlice.reducer

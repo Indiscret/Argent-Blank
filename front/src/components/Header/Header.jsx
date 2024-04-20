@@ -6,16 +6,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle, faSignOut } from '@fortawesome/free-solid-svg-icons'
 
 function Header() {
-    const { token, firstName } = useSelector((state) => state.user);
-    const dispatch = useDispatch();
-    const SignOut = () => {
-        try {
-            localStorage.removeItem('rememberedUser');
-          logout(token, dispatch);
-        } catch (err) {
-            console.error(err);
-        }
+  const { token, firstName } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const SignOut = () => {
+      try {
+          localStorage.removeItem('userToken');
+        logout(token, dispatch);
+      } catch (err) {
+          console.error(err);
       }
+    }
 
     return (
         <header>

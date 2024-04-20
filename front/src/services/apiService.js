@@ -16,22 +16,24 @@ export const login = async (user, dispatch, handleError, handleValid) => {
       "http://localhost:3001/api/v1/user/login",
       user
     );
-    dispatch(loginSuccess(res.data));
+    const token = res.data.body.token;
+    dispatch(loginSuccess(res.data, token ));
     handleValid(res.data.message);
+    return token;
   } catch (err) {
     handleError(`${err}`);
     dispatch(loginError(err));
   }
 };
 
-export const fetchUser = async (token, dispatch, handleError) => {
+export const fetchUser = async (token, dispatch) => {
   try {
-    axios.defaults.headers.common["Authorization"] = `Bearer${token}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     const res = await axios.post("http://localhost:3001/api/v1/user/profile");
     dispatch(fetchUserSuccess(res.data.body));
   } catch (err) {
-    handleError(`${err}`);
-    dispatch(fetchUserError(err));
+    const errorMessage = err.message || 'Unknown error occurred';
+    dispatch(fetchUserError(errorMessage));
   }
 };
 
@@ -43,13 +45,13 @@ export const logout = async (token, dispatch) => {
   }
 };
 
-export const updateUser = async (data, dispatch, token, handleError) => {
+export const updateUser = async (data, dispatch, token) => {
   try {
-    axios.defaults.headers.common["Authorization"] = `Bearer${token}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     await axios.put("http://localhost:3001/api/v1/user/profile", data);
     dispatch(updateUserSuccess(data));
   } catch (err) {
-    handleError(`${err}`);
-    dispatch(updateUserError(err));
+    const errorMessage = err.message || 'Unknown error occurred';
+    dispatch(updateUserError(errorMessage));
   }
 };
